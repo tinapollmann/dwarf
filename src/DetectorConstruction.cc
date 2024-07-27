@@ -75,9 +75,8 @@ void DetectorConstruction::SetDefaults() {
 	sourceHolderPosition = G4ThreeVector(0., 0., 0.*cm);
 
 	sourceHolderHalfZHeight = 1.5*cm;
-	ESRreflectivity = 0.95;
+	ESRreflectivity = 0.83;
 	LArVUVAbsl = 1700.*cm;
-	G4cout << "0" << G4endl;
 }
 
 
@@ -112,8 +111,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	std::vector<G4double> scintillationSpectrumLAr = { 0.0, 0.0 , 0.0 ,0.0 , 1.0, 0.}; // peak at 128 nm
 	std::vector<G4double> lar_RIND = { 1.23, 1.23, 1.23, 1.36, 1.36, 1.36};
 	std::vector<G4double> lar_ABSL = {2000. * m, 2000. * m, 2000. * m, LArVUVAbsl, LArVUVAbsl, LArVUVAbsl}; // from https://iopscience.iop.org/article/10.1088/1748-0221/17/01/C01012
-			// Note: abs length for visible is essentially infinite here; we eat visible photons once they hit the ESR
-			// and assume the ESR absorptoin probability is much higher the the prob they are absorbed in the LAr on their path.
+		// Note: abs length for visible is essentially infinite here; we eat visible photons once they hit the ESR
+		// and assume the ESR absorptoin probability is much higher the the prob they are absorbed in the LAr on their path.
 	std::vector<G4double> lar_RAYL = {1.7 * m, 1.7 * m, 1.7 * m, 1.7 * m, 1.7 * m, 1.7 * m}; //
 
 	MPTLAr = new G4MaterialPropertiesTable();  
@@ -161,7 +160,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	aluminumSurface->SetModel(unified);
 
 	G4MaterialPropertiesTable* MPTAl = new G4MaterialPropertiesTable();
-	//std::vector<G4double>  reflectivity_ESR = { 0.97, 0.97, 0.97, 0.97 ,0. ,0. }; // 97% reflectivity across the visible spectrum https://resources.perkinelmer.com/lab-solutions/resources/docs/far_measurement-of-enhanced-specular-reflector-films-using-lambda-1050-and-ura-accessory-012190_01.pdf
 	std::vector<G4double>  reflectivity_ESR = { ESRreflectivity, ESRreflectivity, ESRreflectivity, ESRreflectivity ,0. ,0. }; // Reduced because much of the PEN spectrum is in a lower reflectivity region, see https://doi.org/10.1140/epjc/s10052-021-09870-7
 	//std::vector<G4double>  reflectivity_ESR = { 0., 0., 0., 0. ,0. ,0. }; //  no reflectivity, for test of sensor coverage
 	std::vector<G4double> ESR_ABSL = { 0.01 * mm,  0.01 * mm, 0.01 * mm, 0.01 * mm, 0.01 * mm, 0.01 * mm};
@@ -191,10 +189,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
 	// Dimensions for the LAr hexagonal column
-	//G4double innerRadiusLAr = 860.0/2. * mm;
-	//G4double outerRadiusLAr = 995.0/2. * mm;
 	G4double outerRadiusLAr = 861.7/2. * mm; // what Geant4 calls the "outer Radius" is actually the 
-											// radius of the circle inside the polygon, based on tests. 
+											 // radius of the circle inside the polygon, based on tests. 
 	G4double hzLAr = 1015.0 * mm / 2.0; // Half-height of the hexagon
 
 	// Define the LAr hexagonal column
@@ -217,7 +213,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	logicHexShellPEN = new G4LogicalVolume(solidHexShellPEN, PEN, "HexShellPEN");
 
-	// Define the aluminum shell
+	// Define the aluminum shell - this is actually the ESR foil
 	G4double outerRadiusAl = outerRadiusPEN + 1.0 * mm;
 	G4double hzAl         = hzPEN + 1*mm;
 	G4Polyhedra* solidHexShellAl = new G4Polyhedra("HexShellAl", 0.0 * deg, 360.0 * deg, 6, 2,
@@ -226,7 +222,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 												   new G4double[2]{ outerRadiusAl, outerRadiusAl });
 
 	G4LogicalVolume* logicHexShellAl = new G4LogicalVolume(solidHexShellAl, aluminum, "HexShellAl");
+	
+	// Define the gap in the foil between the walls and the lid
+	G4double hzGap = 2.5*cm;
+	G4double outerRadiusGap = outerRadiusPEN;
+	G4double innerRadiusGap = outerRadiusPEN - 1.*mm;
+	G4Polyhedra* solidHexGap = new G4Polyhedra("HexShellGap", 0.0 * deg, 360.0 * deg, 6, 2,
+													new G4double[2]{ -hzGap, hzGap },
+													new G4double[2]{ innerRadiusGap, innerRadiusGap },
+													new G4double[2]{ outerRadiusGap, outerRadiusGap });
 
+	G4LogicalVolume* logicHexShellGap = new G4LogicalVolume(solidHexGap, lead, "HexShellGap");	// we use lead here just because it is defined to absorb all photons, which is what we want the gap to do
 
 	// Define the PMT cathode just as a cylinder
 	G4double PMTCathRadius = 5.08 * cm; // 4 inch diameter opening in the PEN foil; 2inch radius = 5.08 cm		
@@ -236,23 +242,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4Tubs* solidPMTCath = new G4Tubs("PMTCath", 0.0, PMTCathRadius, PMTCathHalfHeight, 0.0 , 360.0 );
 	logicPMTCath = new G4LogicalVolume(solidPMTCath, lead, "PMTCath");
 
-	G4double PMTArea = PMTCathRadius/cm *PMTCathRadius/cm * 3.1415;
-		G4cout << "*_*______*******_______*********_______*********"<< G4endl;									 
-	G4cout << "Fractional area covered by photo sensor: " << PMTArea/(solidHexColumnLAr->GetSurfaceArea()/cm2) << G4endl;
-	G4cout << "Sensor area: " << PMTArea << G4endl;
-	G4cout << "Hexagon column area: " << (solidHexColumnLAr->GetSurfaceArea()/cm2) << " for outer radius of " << outerRadiusLAr<<G4endl;
-	G4cout << "*_*______*******_______*********_______*********"<< G4endl;
-	
-		
-	
-	//Source holder; this is a cylinder, with a hollow cylinder on top
+
+	//Define the source holder; this is a cylinder, with a hollow cylinder on top
 	G4Tubs* solidSourceHolderBase = new G4Tubs("solidSourceHolderBase", 0.0, 1.5*cm, sourceHolderHalfZHeight, 0.0 , 360.0 );
 	G4Tubs* solidSourceHolderRim = new G4Tubs("solidSourceHolderRim", 1.3*cm, 1.5*cm, 0.3*cm, 0.0 , 360.0 );
-	
 	G4UnionSolid *solidSourceHolder = new G4UnionSolid("SourceHolder", solidSourceHolderBase, solidSourceHolderRim, nullptr, G4ThreeVector(0., 0., sourceHolderHalfZHeight) );
 	G4LogicalVolume* logicSourceHolder = new G4LogicalVolume(solidSourceHolder, lead, "SourceHolder");	
-
-	//G4LogicalVolume* logicSourceHolderRim = new G4LogicalVolume(solidSourceHolderRim, lead, "SourceHolderRim");	
 
 
 	// Place the aluminum, that is ESR, hexagonal shell in the world volume
@@ -262,6 +257,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	
 	// Place the LAr hexagonal column inside the PEN hexagonal shell
 	new G4PVPlacement(nullptr, G4ThreeVector(0,0,0), logicHexColumnLAr, "HexColumnLAr", logicHexShellPEN, false, 0);
+	
+	// Place the gap/absorber just below the top
+	G4double gapz = hzPEN - hzGap/2.;
+	new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapz), logicHexShellGap, "HexShellGap", logicHexShellPEN, false, 0);
 
 	// Place the PMT; place 12.5cm to the centre of face of the PEN hexagon
 	// Calculate the position of the PMTCath
@@ -278,6 +277,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
  //  new G4LogicalSkinSurface("photocath_surf", logicPMTCath, photocath_opsurf); // this is the photocathode of the PM
 	
 
+	G4double PMTArea = PMTCathRadius/cm *PMTCathRadius/cm * 3.1415;
+	G4cout << "*_*______*******_______*********_______*********"<< G4endl;									 
+	G4cout << "Fractional area covered by photo sensor: " << PMTArea/(solidHexColumnLAr->GetSurfaceArea()/cm2) << G4endl;
+	G4cout << "Sensor area: " << PMTArea << G4endl;
+	G4cout << "Hexagon column area: " << (solidHexColumnLAr->GetSurfaceArea()/cm2) << " for outer radius of " << outerRadiusLAr<<G4endl;
+	G4cout << "*_*______*******_______*********_______*********"<< G4endl;
+	
+	
+	
 	// Visualization attributes
 	G4VisAttributes* hexVisAttrLAr = new G4VisAttributes(G4Colour(0.0, 1.0, 0.0)); // Green
 	hexVisAttrLAr->SetVisibility(0);
@@ -291,11 +299,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4VisAttributes* hexVisAttrESR = new G4VisAttributes(G4Colour(0.7, 0.7, 0.7)); // gray
 	logicHexShellAl->SetVisAttributes(hexVisAttrESR);
 
-	G4VisAttributes* tubeVisAttr = new G4VisAttributes(G4Colour(0.93, 0.73, 0.25)); // Yellow
+	G4VisAttributes* tubeVisAttr = new G4VisAttributes(G4Colour(0.91, 0.65, 0.22)); // Yellow
 	logicPMTCath->SetVisAttributes(tubeVisAttr);	
 	
 	G4VisAttributes* sourceVisAttr = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0)); // Red
 	logicSourceHolder->SetVisAttributes(sourceVisAttr);	
+	
+	G4VisAttributes* hexVisGap = new G4VisAttributes(G4Colour(0.1, 0.1, 0.1)); // dark grey
+	hexVisGap->SetVisibility(1);
+	logicHexShellGap->SetVisAttributes(hexVisGap);	
+	
 	
 	//
 	//always return the physical World

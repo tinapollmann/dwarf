@@ -8,4 +8,30 @@
                             -----------
 
 
+1 - Install
 
+source path_to/geant4-v11.2.1-build/geant4make.sh
+make
+
+2 - Run
+
+> dwarf runall.mac
+
+Will run all source positions.
+
+> dwarf run_muon.mac
+
+Will simulate light emitted uniformly along the length of the detector, such as from a CR muon
+
+> dwarf
+ >> /control/execute test.mac
+ >> /control/execute vis.mac
+
+To test the geometry setup. It creates three views from different angles to 
+check the position of the source holder and the PMT
+
+3 - Analyse
+
+> root ana.C
+
+Makes the plots.
