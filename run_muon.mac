@@ -1,0 +1,18 @@
+/run/verbose 0
+/control/verbose 0
+/tracking/verbose 0
+/process/optical/verbose 0
+/process/optical/boundary/verbose 0
+
+
+/mydetector/SourcePosXYZ 0. 0. -49.
+/run/initialize
+/mydetector/MainScintYield 5000
+
+/process/optical/scintillation/setTrackSecondariesFirst true
+/analysis/setFileName wls_muon
+/analysis/h1/set 0 1000 0 0.1
+/analysis/h1/set 1 100 0 100
+/analysis/h1/set 2 100 0 1500
+/analysis/h1/set 3 10 0.3 0.7
+/run/beamOn 500
