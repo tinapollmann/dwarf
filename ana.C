@@ -15,7 +15,7 @@ int ana() {
 	float PMTEfficiency = 0.16;
 	float dPMTEfficiency = 0.01;
 
-	float PENWLSE = 0.6;
+	float PENWLSE = 0.5;
 	float dPENWLSE = 0.2; // 20%, includes unc on PENWLSE and on the relative yield compared to TPB
 
 	float PE_alpha_peak = alphaEnergy * LAr_alphaQ * source_geo_frac * LAr_py * PMTEfficiency * PENWLSE;
@@ -141,6 +141,8 @@ TGData_centre->SetPoint(3, coordinate_offset_z - 75.00, 40.87);
 TGData_centre->SetPointError(3, 0, 0.09);
 cout << "0. " << coordinate_offset_z - 75.00 << " 0. " << endl;
 
+/*
+
 
 TGData_right->SetPoint(0, coordinate_offset_z - 10.0 + 1.5, 108.99); 
 TGData_right->SetPointError(0, 0, 1.50);
@@ -166,6 +168,33 @@ cout << "-50. " << coordinate_offset_z - 37.50 << " 0. " << endl;
 TGData_left->SetPoint(2, coordinate_offset_z - 75.00 - 1.5, 95.50); 
 TGData_left->SetPointError(2, 0, 1.57);
 cout << "-50. " << coordinate_offset_z - 75.00 << " 0. " << endl;
+*/
+
+
+TGData_right->SetPoint(0, coordinate_offset_z - 10.0 + 1.5, 108.99); 
+TGData_right->SetPointError(0, 0, 1.50);
+cout << "50. " << coordinate_offset_z - 10.0 << " 0. " << endl;
+
+
+TGData_right->SetPoint(1, coordinate_offset_z - 37.50+ 1.5, 100.44); 
+TGData_right->SetPointError(1, 0, 1.78);
+cout << "50. " << coordinate_offset_z - 37.50 << " 0. " << endl;
+
+TGData_right->SetPoint(2, coordinate_offset_z - 75.00+ 1.5, 100.51); 
+TGData_right->SetPointError(2, 0, 1.7);
+cout << "50. " << coordinate_offset_z - 75.00 << " 0. " << endl;
+
+TGData_left->SetPoint(0, coordinate_offset_z - 10.0/10. - 1.5, 102.61); 
+TGData_left->SetPointError(0, 0, 1.74);
+cout << "-50. " << coordinate_offset_z - 10.0/10 << " 0. " << endl;
+
+TGData_left->SetPoint(1, coordinate_offset_z - 37.50/10 - 1.5, 98.51); 
+TGData_left->SetPointError(1, 0, 1.92);
+cout << "-50. " << coordinate_offset_z - 37.50/10. << " 0. " << endl;
+
+TGData_left->SetPoint(2, coordinate_offset_z - 75.00/10. - 1.5, 95.50); 
+TGData_left->SetPointError(2, 0, 1.57);
+cout << "-50. " << coordinate_offset_z - 75.00/10. << " 0. " << endl;
 
 
 

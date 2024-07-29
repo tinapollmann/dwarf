@@ -106,7 +106,7 @@
 /analysis/h1/set 3 10 0.3 0.7
 /run/beamOn 250
 
-/mydetector/SourcePosAlphaZ -50. 20 0.
+/mydetector/SourcePosAlphaZ -50. 29 0. 
 /run/initialize
 /mydetector/MainScintYield 40000.
 /mydetector/ESRreflectivity 0.83
@@ -119,7 +119,7 @@
 /analysis/h1/set 3 10 0.3 0.7
 /run/beamOn 250
 
-/mydetector/SourcePosAlphaZ -50. -7.5 0. 
+/mydetector/SourcePosAlphaZ -50. 26.25 0. 
 /run/initialize
 /mydetector/MainScintYield 40000.
 /mydetector/ESRreflectivity 0.83
@@ -132,7 +132,7 @@
 /analysis/h1/set 3 10 0.3 0.7
 /run/beamOn 250
 
-/mydetector/SourcePosAlphaZ -50. -45 0. 
+/mydetector/SourcePosAlphaZ -50. 22.5 0.  
 /run/initialize
 /mydetector/MainScintYield 40000.
 /mydetector/ESRreflectivity 0.83

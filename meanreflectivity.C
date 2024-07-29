@@ -28,6 +28,8 @@ tg_PENESRRef->AddPoint(465.7358490566038, 96.81341719077568);
 tg_PENESRRef->AddPoint(472.8301886792453, 96.47798742138365);
 tg_PENESRRef->AddPoint(482.0377358490566, 96.9811320754717);
 
+tg_PENESRRef->AddPoint(501, 97.0);
+
 auto tg_PMTQE = new TGraph(); //https://hamamatsu.su/media/index/%3Ftype%3Dcatalog%26id%3D2&ved=2ahUKEwj788_UpMKHAxUuywIHHXl2MOEQFnoECBkQAQ&usg=AOvVaw3YgYwJulJerUMZFFa_FY5i
 tg_PMTQE->AddPoint(274.87179487179486, 0.09849900773546232);
 tg_PMTQE->AddPoint(283.0769230769231, 0.372759372031494);
@@ -116,7 +118,7 @@ fgg->SetParLimits(2, 390, 410);
 fgg->SetParLimits(3, 5, 50);
 fgg->SetParLimits(4, 410, 450);
 fgg->SetParLimits(5, 5, 50);
-//tg_PENESpec->Fit("fgg","","",340,480);
+tg_PENESpec->Fit("fgg","","",340,480);
 
 TF1 *fref = new TF1("fref","[0]/(1 + exp(-[1]*(x-[2])))",300, 600);
 fref->SetParameters(94.759, 0.273, 284.);
@@ -127,7 +129,7 @@ tg_PENESRRef->Fit("fref","","",340, 440);
 
 fgg->SetParameter(0, 1.); // normalize
 
-float nsamples = 60.;
+float nsamples =20.;
 float wstart = 340.;
 float wend = 500;
 
@@ -147,5 +149,40 @@ averageR = averageR/norm;
 cout << "Average reflectivity is " << averageR << endl;
 cout << "Check normalization " << fgg->Integral(320,600) << endl;
 
+// print the arrays for use in Geant, sorted by energy
+// wavelength_value = 1239.847/energy_value; nm, eV
+float wavelengthToEnergy = 1239.847;
+cout << "Energies: ";
+for (int wl = nsamples-1; wl > 0; wl--) {
+float energy = wavelengthToEnergy/(wstart + float(wl) * dw);
+cout << energy << ", ";
+}
+cout << endl;
+
+cout << "PEN spectrum: ";
+for (int wl = nsamples-1; wl > 0; wl--) {
+cout << tg_PENESpec->Eval(wstart + float(wl) * dw) << ", ";
+}
+cout << endl;
+
+cout << "PEN reflectance: ";
+for (int wl = nsamples-1; wl > 0; wl--) {
+	float wll = wstart + float(wl) * dw;
+	if (wll < 390)cout << fref->Eval(wll) << ", ";
+	else cout << tg_PENESRRef->Eval(wll) << ", ";
+}
+cout << endl;
+
+cout << "PMT efficiency: ";
+for (int wl = nsamples-1; wl > 0; wl--) {
+cout << tg_PMTQE->Eval(wstart + float(wl) * dw)*17./25. << ", "; // scale to the PMT that has max efficiency of 17%
+}
+cout << endl;
+
+cout << "absorption: ";
+for (int wl = nsamples-1; wl > 0; wl--) {
+cout <<  "0.01*cm, "; // 
+}
+cout << endl;
 
 }
