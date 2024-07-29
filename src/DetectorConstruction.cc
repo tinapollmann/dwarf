@@ -224,7 +224,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4LogicalVolume* logicHexShellAl = new G4LogicalVolume(solidHexShellAl, aluminum, "HexShellAl");
 	
 	// Define the gap in the foil between the walls and the lid
-	G4double hzGap = 2.5*cm;
+	G4double hzGap = 0.5*cm;
 	G4double outerRadiusGap = outerRadiusPEN;
 	G4double innerRadiusGap = outerRadiusPEN - 1.*mm;
 	G4Polyhedra* solidHexGap = new G4Polyhedra("HexShellGap", 0.0 * deg, 360.0 * deg, 6, 2,
@@ -234,13 +234,21 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* logicHexShellGap = new G4LogicalVolume(solidHexGap, lead, "HexShellGap");	// we use lead here just because it is defined to absorb all photons, which is what we want the gap to do
 
-	// Define the PMT cathode just as a cylinder
+	// Define the vis PMT cathode just as a cylinder
 	G4double PMTCathRadius = 5.08 * cm; // 4 inch diameter opening in the PEN foil; 2inch radius = 5.08 cm		
 	G4double PMTCathHeight = 2.0 * cm;
 	G4double PMTCathHalfHeight = PMTCathHeight / 2.0;
 
 	G4Tubs* solidPMTCath = new G4Tubs("PMTCath", 0.0, PMTCathRadius, PMTCathHalfHeight, 0.0 , 360.0 );
 	logicPMTCath = new G4LogicalVolume(solidPMTCath, lead, "PMTCath");
+
+	// Define the VUV PMT cathode (this will be a dead area, since the PMT was broken)
+	G4double VUVPMTCathRadius = 5.08 * cm; // 4 inch diameter opening in the PEN foil; 2inch radius = 5.08 cm		
+	G4double VUVPMTCathHeight = 2.0 * cm;
+	G4double VUVPMTCathHalfHeight = PMTCathHeight / 2.0;
+
+	G4Tubs* solidVUVPMTCath = new G4Tubs("PMTVUVCath", 0.0, VUVPMTCathRadius, VUVPMTCathHalfHeight, 0.0 , 360.0 );
+	G4LogicalVolume* logicVUVPMTCath = new G4LogicalVolume(solidVUVPMTCath, lead, "PMTVUVCath");
 
 
 	//Define the source holder; this is a cylinder, with a hollow cylinder on top
@@ -266,6 +274,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	// Calculate the position of the PMTCath
 	G4double PMTCathPositionZ = hzLAr - (PMTCathHalfHeight - 1.0 * cm);	
 	new G4PVPlacement(nullptr, G4ThreeVector(12.5*cm, 0, PMTCathPositionZ), logicPMTCath, "PMTCath", logicHexColumnLAr, false, 0);
+
+	// Place the VUV PMT; place -13.5cm to the centre of face of the PEN hexagon in x, and approximately +3cm in y based on engineering drwaing
+	// Put at same Z position as the other PMT
+	new G4PVPlacement(nullptr, G4ThreeVector(-13.5*cm, 3.*cm, PMTCathPositionZ), logicVUVPMTCath, "PMTVUVCath", logicHexColumnLAr, false, 0);
+
 
 	// Place the source holder
 	new G4PVPlacement(nullptr,sourceHolderPosition, logicSourceHolder, "SourceHolder", logicHexColumnLAr, false, 0);
@@ -301,6 +314,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4VisAttributes* tubeVisAttr = new G4VisAttributes(G4Colour(0.91, 0.65, 0.22)); // Yellow
 	logicPMTCath->SetVisAttributes(tubeVisAttr);	
+
+	G4VisAttributes* tubeVUVVisAttr = new G4VisAttributes(G4Colour(0.1, 0.1, 0.1)); // dark grey
+	logicVUVPMTCath->SetVisAttributes(tubeVUVVisAttr);		
 	
 	G4VisAttributes* sourceVisAttr = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0)); // Red
 	logicSourceHolder->SetVisAttributes(sourceVisAttr);	

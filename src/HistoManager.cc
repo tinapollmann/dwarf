@@ -57,14 +57,13 @@ void DwarfHistoManager::Book()
   G4int nbins = 100;
   G4double vmin = 0.;
   G4double vmax = 100.;
-
   // 0
-  analysisManager->CreateH1("fraction", "PMT hits / Scintillation photons", nbins, vmin, vmax);
+  analysisManager->CreateH1("fraction", "PMT hits / Scintillation photons", 1000, 0, 0.1);
 	// 1
-  analysisManager->CreateH1("vuvlength", "VUV track length [cm]", nbins, vmin, vmax);
+  analysisManager->CreateH1("vuvlength", "VUV track length [cm]", 100, 0, 140);
 	//2
-  analysisManager->CreateH1("vislength", "Vis track length [cm]", nbins, vmin, vmax);
-  analysisManager->CreateH1("absorbed_holder", "fraction absorbed in holder", nbins, vmin, vmax);
+  analysisManager->CreateH1("vislength", "Vis track length [cm]", 200, 0, 800);
+  analysisManager->CreateH1("absorbed_holder", "fraction absorbed in holder", 10, 0.3, 0.7);
 
 
   // Create all histograms as inactivated

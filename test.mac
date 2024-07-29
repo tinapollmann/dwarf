@@ -7,7 +7,7 @@
 
 
 #/mydetector/SourcePosXYZ 20. 0. 20.
-/mydetector/SourcePosAlphaZ -50. 40. 0.
+/mydetector/SourcePosAlphaZ 0. 37.5 0.
 /run/reinitializeGeometry
 /vis/scene/notifyHandlers
 /vis/viewer/update
