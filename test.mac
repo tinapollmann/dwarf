@@ -1,20 +1,23 @@
 #/run/numberOfThreads 1
 /run/verbose 0
 /control/verbose 0
-/tracking/verbose 1
+/tracking/verbose 0
 /process/optical/verbose 0
 /process/optical/boundary/verbose 0
 
 
-#/mydetector/SourcePosXYZ 20. 0. 20.
-/mydetector/SourcePosAlphaZ 0. 37.5 0.
+/mydetector/SourcePosAlphaZ 0. 30 0.
+/mydetector/ESRreflectivity 0.83
+/mydetector/LArAbsLength 50
+/process/optical/scintillation/setTrackSecondariesFirst true
+
 /run/reinitializeGeometry
 /vis/scene/notifyHandlers
 /vis/viewer/update
 /run/initialize
 
 #So that only a few photons are created and the paths are visible
-/mydetector/MainScintYield 100.
+/mydetector/MainScintYield 10000.
 
 
 

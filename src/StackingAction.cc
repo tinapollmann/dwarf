@@ -57,6 +57,8 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track* aTrac
 	  }
 	else if (aTrack->GetParentID() > 1) {
 		fEventAction->IncPhotonCount_Vis(); 
+		//G4cout << aTrack->GetKineticEnergy()/eV << G4endl;
+      	// G4AnalysisManager::Instance()->FillH1(4, 1239.847/(aTrack->GetKineticEnergy()/eV));
 		}
 	}
 

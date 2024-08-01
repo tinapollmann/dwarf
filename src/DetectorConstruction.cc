@@ -71,12 +71,12 @@ DetectorConstruction::~DetectorConstruction()
 }
 
 void DetectorConstruction::SetDefaults() {
-	//SetSourcePositionByAngleAndZ(0., 0.); // places source in the center of the volume
 	sourceHolderPosition = G4ThreeVector(0., 0., 0.*cm);
 
 	sourceHolderHalfZHeight = 1.5*cm;
 	ESRreflectivity = 0.83;
-	LArVUVAbsl = 1700.*cm;
+	LArVUVAbsl = 50.*cm;
+	//LArVUVAbsl = 30*cm;
 }
 
 
@@ -110,10 +110,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	std::vector<G4double> photonEnergy = {2.0*eV, 3. * eV, 4.0 *eV, 9.1 * eV, 9.7 * eV, 10. * eV }; 
 	std::vector<G4double> scintillationSpectrumLAr = { 0.0, 0.0 , 0.0 ,0.0 , 1.0, 0.}; // peak at 128 nm
 	std::vector<G4double> lar_RIND = { 1.23, 1.23, 1.23, 1.36, 1.36, 1.36};
-	std::vector<G4double> lar_ABSL = {2000. * m, 2000. * m, 2000. * m, LArVUVAbsl, LArVUVAbsl, LArVUVAbsl}; // from https://iopscience.iop.org/article/10.1088/1748-0221/17/01/C01012
-		// Note: abs length for visible is essentially infinite here; we eat visible photons once they hit the ESR
-		// and assume the ESR absorptoin probability is much higher the the prob they are absorbed in the LAr on their path.
-	std::vector<G4double> lar_RAYL = {1.7 * m, 1.7 * m, 1.7 * m, 1.7 * m, 1.7 * m, 1.7 * m}; //
+	std::vector<G4double> lar_ABSL = {85. * m, 85.* m, 85. * m, LArVUVAbsl, LArVUVAbsl, LArVUVAbsl}; // from https://iopscience.iop.org/article/10.1088/1748-0221/17/01/C01012
+		// Note: 85m comes from fit to the reflection tail on the LED pulseshape
+	std::vector<G4double> lar_RAYL = {30 * m, 30 * m, 30 * m, 30 * m, 1.0 * m, 1.0 * m}; //
 
 	MPTLAr = new G4MaterialPropertiesTable();  
 	MPTLAr->AddProperty("SCINTILLATIONCOMPONENT1", photonEnergy, scintillationSpectrumLAr);
@@ -129,14 +128,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	MPTLAr->AddConstProperty("SCINTILLATIONYIELD2", 0.0);	
 
 	LAr->SetMaterialPropertiesTable(MPTLAr);
-	//LAr->GetIonisation()->SetBirksConstant(0.126 * mm / MeV);
 	  
 	// WLS properties of the PEN
-	std::vector<G4double> VisEnergies = { 2.0, 2.52001, 2.56167, 2.60472, 2.64925, 2.69532, 2.74302, 2.79245, 2.84369, 2.89684, 2.95202, 3.00934, 3.06893, 3.13093, 3.19548, 3.26276, 3.33292, 3.40617, 3.48272, 3.56278, 4.0 };
-	std::vector<G4double> PEN_Emission = {0.0, 14.0547, 18.9554, 24.494, 30.347, 37.6237, 48.3961, 56.8418, 68.6785, 78.2151, 84.7811, 85.2151, 82.9122, 73.8898, 54.9558, 38.7634, 22.3622, 5.5479, 2.16497, 1.88172, 0.0 };
-	std::vector<G4double> PEN_ABSL  = { 90.0*cm, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 90.0*cm};
-	std::vector<G4double> PEN_RIND = { 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23};
-	std::vector<G4double> PEN_Reflectivity = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	std::vector<G4double> VisEnergies = { 2.0*eV, 2.49969*eV, 2.52001*eV, 2.54067*eV, 2.56167*eV, 2.58301*eV, 2.60472*eV, 2.62679*eV, 2.64925*eV, 2.67208*eV, 2.69532*eV, 2.71896*eV, 2.74302*eV, 2.76752*eV, 2.79245*eV, 2.81783*eV, 2.84369*eV, 2.87002*eV, 2.89684*eV, 2.92417*eV, 2.95202*eV, 2.9804*eV, 3.00934*eV, 3.03884*eV, 3.06893*eV, 3.09962*eV, 3.13093*eV, 3.16288*eV, 3.19548*eV, 3.22877*eV, 3.26276*eV, 3.29747*eV, 3.33292*eV, 3.36915*eV, 3.40617*eV, 3.44402*eV, 3.48272*eV, 3.52229*eV, 3.56278*eV, 3.60421*eV, 4.0 *eV, 10.*eV};
+	//std::vector<G4double> PEN_Emission = {0.0, 14.0547, 18.9554, 24.494, 30.347, 37.6237, 48.3961, 56.8418, 68.6785, 78.2151, 84.7811, 85.2151, 82.9122, 73.8898, 54.9558, 38.7634, 22.3622, 5.5479, 2.16497, 1.88172, 0.0 };
+	std::vector<G4double> PEN_Emission = {0.0,0.000857878, 0.00114682, 0.00150297, 0.00193117, 0.00243309, 0.00300639, 0.00364431, 0.00433573, 0.00506611, 0.00581912, 0.00657892, 0.00733269, 0.00807265, 0.00879692, 0.00950834, 0.010211, 0.0109048, 0.0115792, 0.0122077, 0.0127465, 0.0131369, 0.0133137, 0.0132177, 0.0128091, 0.0120794, 0.0110558, 0.0098003, 0.00839989, 0.00695257, 0.00555208, 0.004275, 0.00317268, 0.00226919, 0.00156426, 0.00103966, 0.000666598, 0.000412677, 0.000246975, 0.000143115, 0.0 ,0.0}; // from Gabriela's paper, matches Andreas' paper
+	std::vector<G4double> PEN_ABSL  = {9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 0.01 * mm, 0.01 * mm};
+	std::vector<G4double> PEN_RIND = { 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23};
+	std::vector<G4double> PEN_Reflectivity = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 	
 	/*std::vector<G4double> PEN_ABSL = {90.0 * m, 90.0 * m,90.0 * m, 0.01 * mm, 0.01 * mm, 0.01 * mm};
     std::vector<G4double> PEN_RIND = {1.57, 1.57, 1.57, 1.57, 1.57, 1.57}; // PEN material	 https://refractiveindex.info/?shelf=organic&book=polyethylene_terephthalate&page=Zhang
@@ -165,9 +164,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	aluminumSurface->SetFinish(ground);
 	aluminumSurface->SetModel(unified);
 
+
+
 	G4MaterialPropertiesTable* MPTAl = new G4MaterialPropertiesTable();
-	std::vector<G4double>  reflectivity_ESR = { 97.0, 96.991, 96.9831, 96.6512, 96.7064, 96.4894, 96.2193, 95.9131, 95.8071, 95.1363, 94.8428, 94.2498, 92.9001, 88.7445, 71.4474, 23.6371, 3.23342, 0.353766, 0.0376418, 0.00399315, 0.0 };
-	std::vector<G4double> ESR_ABSL = {0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm, 0.001*cm};
+	std::vector<G4double> reflectivity_ESR = { 0.97,  0.96995, 0.96991, 0.969871, 0.969831, 0.968698, 0.966512, 0.965172, 0.967064, 0.967153, 0.964894, 0.962946, 0.962193, 0.96144, 0.959131, 0.958071, 0.958071, 0.955947, 0.951363, 0.95086, 0.948428, 0.945126, 0.942498, 0.937896, 0.929001, 0.913459, 0.887445, 0.819497, 71.4474, 47.7311, 23.6371, 9.26904, 3.23342, 1.07795, 0.353766, 0.115495, 0.0376418, 0.0122612, 0.00399315, 0.00130039, 0.0 , 0.0};
+	std::vector<G4double> ESR_ABSL = {0.001*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.001*cm, 0.001*cm};
 	/*std::vector<G4double>  reflectivity_ESR = { ESRreflectivity, ESRreflectivity, ESRreflectivity, ESRreflectivity ,0. ,0. }; // Reduced because much of the PEN spectrum is in a lower reflectivity region, see https://doi.org/10.1140/epjc/s10052-021-09870-7
 	std::vector<G4double> ESR_ABSL = { 0.01 * mm,  0.01 * mm, 0.01 * mm, 0.01 * mm, 0.01 * mm, 0.01 * mm};
 	*/
@@ -232,7 +233,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4LogicalVolume* logicHexShellAl = new G4LogicalVolume(solidHexShellAl, aluminum, "HexShellAl");
 	
 	// Define the gap in the foil between the walls and the lid
-	G4double hzGap = 2*cm;
+	G4double hzGap = 4*cm;
 	G4double outerRadiusGap = outerRadiusPEN;
 	G4double innerRadiusGap = outerRadiusPEN - 1.*mm;
 	G4Polyhedra* solidHexGap = new G4Polyhedra("HexShellGap", 0.0 * deg, 360.0 * deg, 6, 2,
@@ -356,7 +357,7 @@ void DetectorConstruction::SetSourcePositionByAngleAndZ(G4double angle, G4double
 	// This calculation assumes that the source arm is placed in one of the two corners of
 	// the hexagon that are furthest away from the PMT. Angle 0deg makes the arm point toward
 	// the center of the volume (60 deg away from each of the two adjacent hexagon faces)
-	G4double armlength = 50.*cm; // the length of the manipulator arm
+	G4double armlength = 42.4*cm; // the length of the manipulator arm as measured by Kevin
 	G4double degToRad = 3.14159/180.;
 	G4double x = armlength * cos( (60-angle)*degToRad)  - armlength/2.;
 	G4double y = armlength *( sin((60-angle)*degToRad) - sqrt(3.)/2. );

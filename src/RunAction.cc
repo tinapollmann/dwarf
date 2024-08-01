@@ -78,7 +78,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     analysisManager->FillNtupleDColumn(1, detConstruction->GetSourceHolderPosition().y()/cm);
     analysisManager->FillNtupleDColumn(2, detConstruction->GetSourceHolderPosition().z()/cm);
     analysisManager->FillNtupleDColumn(3, detConstruction->GetESRreflectivity()); 
-    analysisManager->FillNtupleDColumn(4, detConstruction->GetLArVUVAbsl()); 
+    analysisManager->FillNtupleDColumn(4, detConstruction->GetLArVUVAbsl()/cm); 
     analysisManager->AddNtupleRow(); 
   }
   else {G4cout << "RunAction: Error no analysis manager" << G4endl;}

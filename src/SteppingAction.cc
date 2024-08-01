@@ -94,6 +94,12 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   }
   // Optical photon only
   if (pdg_particle == -22) {
+  	// make distribution of step lengths for optical absorption study
+  	G4double stepLength = step->GetStepLength();
+	/*if (theTrack->GetParentID() > 1) { // this is a wavelength shifted photon
+		G4AnalysisManager::Instance()->FillH1(5, stepLength/cm);
+	}// don't do this if not necessary */
+  	
     // Was the photon absorbed by the absorption process
     auto proc = thePostPoint->GetProcessDefinedStep();
     if (nullptr != proc && proc->GetProcessName() == "OpAbsorption") {

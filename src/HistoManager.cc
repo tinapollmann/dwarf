@@ -63,13 +63,19 @@ void DwarfHistoManager::Book()
   analysisManager->CreateH1("vuvlength", "VUV track length [cm]", 100, 0, 140);
 	//2
   analysisManager->CreateH1("vislength", "Vis track length [cm]", 200, 0, 800);
+  // 3
   analysisManager->CreateH1("absorbed_holder", "fraction absorbed in holder", 10, 0.3, 0.7);
+  //4
+  analysisManager->CreateH1("WLSphotonspectrum", "energy", 300,300,600);
+  //5
+  analysisManager->CreateH1("VisStepLength", "Step lenght for vis photons [cm]", 200,0,200);
 
 
-  // Create all histograms as inactivated
+  // Create all histograms as activated, except photon spectrum
   for (G4int i = 0; i < analysisManager->GetNofH1s(); ++i) {
-    analysisManager->SetH1Activation(i, false);
+    analysisManager->SetH1Activation(i, true);
   }
+  analysisManager->SetH1Activation(4 ,false);
   
 	analysisManager->CreateNtuple("info", "info"); 
 	analysisManager->CreateNtupleDColumn("sourcex"); //0

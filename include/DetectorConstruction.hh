@@ -57,7 +57,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void SetDefaults();
  G4LogicalVolume* GetScoringVolume() const {return logicPMTCath;}    
 	G4double GetSourceHolderHalfZHeight() const { return sourceHolderHalfZHeight; }
-	void SetLArVUVAbsl(G4double absl) { LArVUVAbsl = absl; }
+	void SetLArVUVAbsl(G4double absl) { LArVUVAbsl = absl*cm; }
 	G4double GetLArVUVAbsl() const { return LArVUVAbsl;}
 	void SetESRreflectivity(G4double ref);
 	G4double GetESRreflectivity() const { return ESRreflectivity;}
