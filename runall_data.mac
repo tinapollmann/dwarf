@@ -7,11 +7,8 @@
 
 
 /run/initialize
-
-/mydetector/SourcePosAlphaZ 00. 30 0.
+/mydetector/SourcePosAlphaZ 0. 30 0.
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
-
 /process/optical/scintillation/setTrackSecondariesFirst true
 
 /analysis/setFileName wls_0_30
@@ -19,84 +16,58 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
-
-/mydetector/SourcePosAlphaZ 0. 22.5 0. 
-/mydetector/ESRreflectivity 0.83
-
-/run/initialize
-/mydetector/MainScintYield 40000.
-
-/process/optical/scintillation/setTrackSecondariesFirst true
-/analysis/setFileName wls_0_22p5
-/analysis/h1/set 0 1000 0 0.1
-/analysis/h1/set 1 100 0 150
-/analysis/h1/set 2 300 0 1500
-/analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
 
 /mydetector/SourcePosAlphaZ 0. -7.5 0.
-/mydetector/ESRreflectivity 0.83
 /run/initialize
 /mydetector/MainScintYield 40000.
-
-
-/process/optical/scintillation/setTrackSecondariesFirst true
 /analysis/setFileName wls_0_m7p5
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
-
-
+/run/beamOn 25
 
 /mydetector/SourcePosAlphaZ 0. -45 0. 
-/mydetector/ESRreflectivity 0.83
 /run/initialize
 /mydetector/MainScintYield 40000.
-
-/process/optical/scintillation/setTrackSecondariesFirst true
 /analysis/setFileName wls_0_m45
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
 
 /mydetector/SourcePosAlphaZ 50. 20 0.
 /run/initialize
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
-
-/process/optical/scintillation/setTrackSecondariesFirst true
 /analysis/setFileName wls_50_20
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
 
 /mydetector/SourcePosAlphaZ 50. -7.5 0. 
 /run/initialize
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
+
 
 /process/optical/scintillation/setTrackSecondariesFirst true
-/analysis/setFileName wls_0_50_m7p5
+/analysis/setFileName wls_50_m7p5
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
 /mydetector/SourcePosAlphaZ 50. -45 0. 
 /run/initialize
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
+
 
 /process/optical/scintillation/setTrackSecondariesFirst true
 /analysis/setFileName wls_50_m45
@@ -104,43 +75,43 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
 /mydetector/SourcePosAlphaZ -50. 20. 0. 
 /run/initialize
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
+
 
 /process/optical/scintillation/setTrackSecondariesFirst true
-/analysis/setFileName wls_0_m50_20
+/analysis/setFileName wls_m50_20
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
 /mydetector/SourcePosAlphaZ -50. -7.5 0. 
 /run/initialize
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
+
 
 /process/optical/scintillation/setTrackSecondariesFirst true
-/analysis/setFileName wls_0_m50_m7p5
+/analysis/setFileName wls_m50_m7p5
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25
 
 /mydetector/SourcePosAlphaZ -50. -45. 0.  
 /run/initialize
 /mydetector/MainScintYield 40000.
-/mydetector/ESRreflectivity 0.83
+
 
 /process/optical/scintillation/setTrackSecondariesFirst true
-/analysis/setFileName wls_0_m50_m45
+/analysis/setFileName wls_m50_m45
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 250
+/run/beamOn 25

@@ -69,6 +69,10 @@ void DwarfHistoManager::Book()
   analysisManager->CreateH1("WLSphotonspectrum", "energy", 300,300,600);
   //5
   analysisManager->CreateH1("VisStepLength", "Step lenght for vis photons [cm]", 200,0,200);
+  //6
+  analysisManager->CreateH1("VUVZ", "Z position of VUV photon interaction [cm]", 200,-60,60);
+  //7
+  analysisManager->CreateH1("VisZ", "Z position of vis photon interaction [cm]", 200,-60,60);
 
 
   // Create all histograms as activated, except photon spectrum
@@ -81,8 +85,7 @@ void DwarfHistoManager::Book()
 	analysisManager->CreateNtupleDColumn("sourcex"); //0
 	analysisManager->CreateNtupleDColumn("sourcey"); //1
 	analysisManager->CreateNtupleDColumn("sourcez"); //2
-	analysisManager->CreateNtupleDColumn("ESRReflectivity"); //2
-	analysisManager->CreateNtupleDColumn("LArVUVAbsLength"); //2
+	analysisManager->CreateNtupleDColumn("LArVUVAbsLength"); //3
 	analysisManager->FinishNtuple();
 	//analysisManager->SetH1Activation(0, false);
 

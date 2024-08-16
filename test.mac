@@ -6,9 +6,7 @@
 /process/optical/boundary/verbose 0
 
 
-/mydetector/SourcePosAlphaZ 0. 30 0.
-/mydetector/ESRreflectivity 0.83
-/mydetector/LArAbsLength 50
+/mydetector/SourcePosAlphaZ 0. 0 0.
 /process/optical/scintillation/setTrackSecondariesFirst true
 
 /run/reinitializeGeometry
@@ -17,7 +15,7 @@
 /run/initialize
 
 #So that only a few photons are created and the paths are visible
-/mydetector/MainScintYield 10000.
+/mydetector/MainScintYield 5000.
 
 
 
@@ -27,6 +25,8 @@
 /analysis/h1/set 1 100 0 100
 /analysis/h1/set 2 100 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 1
+/analysis/h1/set 5 150 0 150
+
+/run/beamOn 10
 
 #*jiqbYv-2zobti

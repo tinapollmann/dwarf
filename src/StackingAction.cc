@@ -46,16 +46,14 @@ StackingAction::StackingAction(EventAction* ea) : fEventAction(ea) {
 
 G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track* aTrack)
 {
-  // Count what process generated the optical photons
+  // 
   if (aTrack->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) {
-    // particle is optical photon from parent alpha
-    if (aTrack->GetParentID() == 1) {
-      // particle is secondary
-      if (aTrack->GetCreatorProcess()->GetProcessName() == "Scintillation") {
+    if (aTrack->GetParentID() == 1) {  // particle is scintillation photon from parent alpha decay
+      if (aTrack->GetCreatorProcess()->GetProcessName() == "Scintillation") { // make sure it is indeed a scintillation photon
       	fEventAction->IncPhotonCount_Scint();
       	}
 	  }
-	else if (aTrack->GetParentID() > 1) {
+	else if (aTrack->GetParentID() > 1) { // Any parent ID >1 indicates a wavelength shifted photon
 		fEventAction->IncPhotonCount_Vis(); 
 		//G4cout << aTrack->GetKineticEnergy()/eV << G4endl;
       	// G4AnalysisManager::Instance()->FillH1(4, 1239.847/(aTrack->GetKineticEnergy()/eV));

@@ -71,7 +71,8 @@ void EventAction::EndOfEventAction(const G4Event* g4ev)
 	
 	
 	
-	float hitfraction = (float)fTotalHits/((float)(fNVis));
+	//float hitfraction = (float)fTotalHits/((float)(fNVis));
+	float hitfraction = (float)fTotalHits/((float)(fNScint));
   	G4AnalysisManager::Instance()->FillH1(0, hitfraction);
   	G4AnalysisManager::Instance()->FillH1(3, (float)fNVUVAbsorbed/((float)fNScint));
 	G4UImanager* UI = G4UImanager::GetUIpointer();
@@ -83,7 +84,7 @@ void EventAction::EndOfEventAction(const G4Event* g4ev)
      G4cout << "Scintillation photons: " << fNScint << G4endl;
      G4cout << "Visible photons: " <<fNVis << G4endl;
      G4cout << "PMT hits: " << fTotalHits << G4endl;
-    G4cout <<  "Absorbed :" << fNAbs << G4endl;
+     G4cout <<  "Absorbed :" << fNAbs << G4endl;
      G4cout << "VUV photons Absorbed on source holder:" << fNVUVAbsorbed << G4endl;
      G4cout << "VUV photons absorbed at boundary: " << fNVUVBoundaryAbsorbed << G4endl;      
      G4cout << "Absorbed at boundary: " << fNAbsBound << G4endl;          

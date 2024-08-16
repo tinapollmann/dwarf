@@ -96,18 +96,21 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   if (pdg_particle == -22) {
   	// make distribution of step lengths for optical absorption study
   	G4double stepLength = step->GetStepLength();
-	/*if (theTrack->GetParentID() > 1) { // this is a wavelength shifted photon
+	if (theTrack->GetParentID() > 1) { // this is a wavelength shifted photon
 		G4AnalysisManager::Instance()->FillH1(5, stepLength/cm);
-	}// don't do this if not necessary */
-  	
+		G4AnalysisManager::Instance()->FillH1(7, thePostPoint->GetPosition().z()/cm);
+	}// don't do this if not necessary 
+  	if (theTrack->GetParentID() == 1) { // this is a VUV photon
+		G4AnalysisManager::Instance()->FillH1(6, thePostPoint->GetPosition().z()/cm);
+	}
     // Was the photon absorbed by the absorption process
     auto proc = thePostPoint->GetProcessDefinedStep();
     if (nullptr != proc && proc->GetProcessName() == "OpAbsorption") {
          //G4cout << "------------------------------------------------------------" << G4endl;
 	     //G4cout << "absorption for track " << theTrack->GetTrackID() << "/ in volume pre " << thePrePV->GetName() << " and post "<< thePostPV->GetName() << G4endl;
 	     //G4cout << "------------------------------------------------------------" << G4endl;
-	    if (thePrePV->GetName() == "PMTCath" && theTrack->GetParentID() > 1) fEventAction->AddPMTHit();
-	    if (thePrePV->GetName() == "SourceHolder" && theTrack->GetParentID() == 1) fEventAction->AddVUVAbsorbed();
+	    if (thePrePV->GetName() == "PMTCath" && theTrack->GetParentID() > 1) fEventAction->AddPMTHit(); // if a WLS photon hits the PMT cathode, we register a PMT hit
+	    if (thePrePV->GetName() == "SourceHolder" && theTrack->GetParentID() == 1) fEventAction->AddVUVAbsorbed(); // a VUV photon absorbed in the source holder
 	    else      fEventAction->IncAbsorption();
     }
     if (nullptr != fBoundary) boundaryStatus = fBoundary->GetStatus();

@@ -75,7 +75,7 @@ void DetectorConstruction::SetDefaults() {
 
 	sourceHolderHalfZHeight = 1.5*cm;
 	ESRreflectivity = 0.83;
-	LArVUVAbsl = 50.*cm;
+	LArVUVAbsl = 40*cm;
 	//LArVUVAbsl = 30*cm;
 }
 
@@ -101,7 +101,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	PEN->AddElement(nist->FindOrBuildElement("O"), 4);
 	G4Material* aluminum = nist->FindOrBuildMaterial("G4_Al"); // This will stand in for the ESR
 	G4Material* lead = nist->FindOrBuildMaterial("G4_Pb"); // for the "PMT". THe material doesn't matter
-	
+	G4Material* glass = nist->FindOrBuildMaterial("G4_Pyrex_Glass"); //this is a fake material that is going to absorb some of the VUV photons just at the top of the cage to simulate a varying PEN efficienc
 	
 	//Define optical properties
 	
@@ -110,9 +110,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	std::vector<G4double> photonEnergy = {2.0*eV, 3. * eV, 4.0 *eV, 9.1 * eV, 9.7 * eV, 10. * eV }; 
 	std::vector<G4double> scintillationSpectrumLAr = { 0.0, 0.0 , 0.0 ,0.0 , 1.0, 0.}; // peak at 128 nm
 	std::vector<G4double> lar_RIND = { 1.23, 1.23, 1.23, 1.36, 1.36, 1.36};
-	std::vector<G4double> lar_ABSL = {85. * m, 85.* m, 85. * m, LArVUVAbsl, LArVUVAbsl, LArVUVAbsl}; // from https://iopscience.iop.org/article/10.1088/1748-0221/17/01/C01012
-		// Note: 85m comes from fit to the reflection tail on the LED pulseshape
-	std::vector<G4double> lar_RAYL = {30 * m, 30 * m, 30 * m, 30 * m, 1.0 * m, 1.0 * m}; //
+	std::vector<G4double> lar_ABSL = {69 * m, 69* m, 69 * m, LArVUVAbsl, LArVUVAbsl, LArVUVAbsl}; // from https://iopscience.iop.org/article/10.1088/1748-0221/17/01/C01012
+		// Note: 69m comes from fit to the reflection tail on the LED pulseshape
+	std::vector<G4double> lar_RAYL = {400 * m, 400 * m, 400 * m, 0.6*m, 0.8*m, 1.0*m}; // https://arxiv.org/html/2312.07712v2 Fig 3
 
 	MPTLAr = new G4MaterialPropertiesTable();  
 	MPTLAr->AddProperty("SCINTILLATIONCOMPONENT1", photonEnergy, scintillationSpectrumLAr);
@@ -136,13 +136,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	std::vector<G4double> PEN_ABSL  = {9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 9.*m, 0.01 * mm, 0.01 * mm};
 	std::vector<G4double> PEN_RIND = { 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23, 1.23};
 	std::vector<G4double> PEN_Reflectivity = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	
-	/*std::vector<G4double> PEN_ABSL = {90.0 * m, 90.0 * m,90.0 * m, 0.01 * mm, 0.01 * mm, 0.01 * mm};
-    std::vector<G4double> PEN_RIND = {1.57, 1.57, 1.57, 1.57, 1.57, 1.57}; // PEN material	 https://refractiveindex.info/?shelf=organic&book=polyethylene_terephthalate&page=Zhang
-	std::vector<G4double> PEN_Emission = {0.0, 1.0, 0.0, 0.0, 0.0, 0.0};
-//	std::vector<G4double> PEN_Reflectivity = { 0.2, 0.17, 0.0, 0. ,0. ,0. }; // https://link.springer.com/10.1140/epjc/s10052-022-10383-0 Fig 13
-	std::vector<G4double> PEN_Reflectivity = { 0.0, 0.0, 0.0, 0. ,0. ,0. }; // the PEN 'is not there' for optical light - all reflection and absorption happens at the ESR
-*/
+
 	auto MPT_PEN = new G4MaterialPropertiesTable();
 	MPT_PEN->AddProperty("RINDEX", VisEnergies, PEN_RIND); /*** See paper https://doi.org/10.1140/epjc/s10052-021-09870-7 **/
 	MPT_PEN->AddProperty("WLSABSLENGTH", VisEnergies, PEN_ABSL);
@@ -151,7 +145,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     MPT_PEN->AddProperty("REFLECTIVITY", VisEnergies, PEN_Reflectivity);
     
     PEN->SetMaterialPropertiesTable(MPT_PEN);
-	//PEN->GetIonisation()->SetBirksConstant(0.126 * mm / MeV);
 	// Define optical properties for the PEN surface
 	G4OpticalSurface* PENSurface = new G4OpticalSurface("PENSurface");
 	PENSurface->SetType(dielectric_dielectric);
@@ -164,14 +157,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	aluminumSurface->SetFinish(ground);
 	aluminumSurface->SetModel(unified);
 
-
-
 	G4MaterialPropertiesTable* MPTAl = new G4MaterialPropertiesTable();
 	std::vector<G4double> reflectivity_ESR = { 0.97,  0.96995, 0.96991, 0.969871, 0.969831, 0.968698, 0.966512, 0.965172, 0.967064, 0.967153, 0.964894, 0.962946, 0.962193, 0.96144, 0.959131, 0.958071, 0.958071, 0.955947, 0.951363, 0.95086, 0.948428, 0.945126, 0.942498, 0.937896, 0.929001, 0.913459, 0.887445, 0.819497, 71.4474, 47.7311, 23.6371, 9.26904, 3.23342, 1.07795, 0.353766, 0.115495, 0.0376418, 0.0122612, 0.00399315, 0.00130039, 0.0 , 0.0};
 	std::vector<G4double> ESR_ABSL = {0.001*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.01*cm, 0.001*cm, 0.001*cm};
-	/*std::vector<G4double>  reflectivity_ESR = { ESRreflectivity, ESRreflectivity, ESRreflectivity, ESRreflectivity ,0. ,0. }; // Reduced because much of the PEN spectrum is in a lower reflectivity region, see https://doi.org/10.1140/epjc/s10052-021-09870-7
-	std::vector<G4double> ESR_ABSL = { 0.01 * mm,  0.01 * mm, 0.01 * mm, 0.01 * mm, 0.01 * mm, 0.01 * mm};
-	*/
+	// https://doi.org/10.1140/epjc/s10052-021-09870-7
 	MPTAl->AddProperty("REFLECTIVITY", VisEnergies, reflectivity_ESR);
 	MPTAl->AddProperty("ABSLENGTH", VisEnergies, ESR_ABSL);
 	aluminumSurface->SetMaterialPropertiesTable(MPTAl);
@@ -186,6 +175,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	photocath_mt->AddProperty("REFLECTIVITY", photonEnergy, reflectivity_pmt);
 	lead->SetMaterialPropertiesTable(photocath_mt);
 
+	// fake layer in front of the top cage to simulate possible reduced WLS efficiency
+	G4double fake_layer_vuv_att = 2.*mm; // 20cm basically turns the effect off
+	std::vector<G4double> attenuator_ABSL = {100*m, 100 * m,100 * m, fake_layer_vuv_att,fake_layer_vuv_att, fake_layer_vuv_att}; // absorb some of the VUV light
+	std::vector<G4double>  reflectivity_attenuator = { 0., 0., 0., 0. ,0. ,0. }; //reflect nothing, absorb everything
+	auto attenuator_mt = new G4MaterialPropertiesTable();
+	attenuator_mt->AddProperty("RINDEX", photonEnergy, lar_RIND);
+	attenuator_mt->AddProperty("ABSLENGTH", photonEnergy, attenuator_ABSL);
+	attenuator_mt->AddProperty("REFLECTIVITY", photonEnergy, reflectivity_attenuator);
+	glass->SetMaterialPropertiesTable(attenuator_mt);
+		
+	
+
+	
 	
 	//Build the geometry
 	G4double PENThickness = 0.5 * mm; // thicker than in reality, or we get in trouble with step sizes; should not matter much
@@ -233,7 +235,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4LogicalVolume* logicHexShellAl = new G4LogicalVolume(solidHexShellAl, aluminum, "HexShellAl");
 	
 	// Define the gap in the foil between the walls and the lid
-	G4double hzGap = 4*cm;
+	G4double hzGap = 2*cm;
 	G4double outerRadiusGap = outerRadiusPEN;
 	G4double innerRadiusGap = outerRadiusPEN - 1.*mm;
 	G4Polyhedra* solidHexGap = new G4Polyhedra("HexShellGap", 0.0 * deg, 360.0 * deg, 6, 2,
@@ -242,6 +244,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 													new G4double[2]{ outerRadiusGap, outerRadiusGap });
 
 	G4LogicalVolume* logicHexShellGap = new G4LogicalVolume(solidHexGap, lead, "HexShellGap");	// we use lead here just because it is defined to absorb all photons, which is what we want the gap to do
+	
+	// Define an attenuator disk that will cover the top; this is to simulate a top of lower WLSE
+	G4double outerRadiusAtt = outerRadiusPEN - 10.*cm;
+	G4double innerRadiusAtt = 0.*cm;
+	G4double hzAtt = 0.5*mm;
+	G4Polyhedra* solidHexAtt = new G4Polyhedra("HexPlateAtt", 0.0 * deg, 360.0 * deg, 6, 2,
+													new G4double[2]{ -hzAtt, hzAtt },
+													new G4double[2]{ innerRadiusAtt, innerRadiusAtt },
+													new G4double[2]{ outerRadiusAtt, outerRadiusAtt });
+
+	G4LogicalVolume* logicHexPlateAtt = new G4LogicalVolume(solidHexAtt, glass, "HexPlateAtt");	// we use lead here just because it is defined to absorb all photons, which is what we want the gap to do
+
+
+
 
 	// Define the vis PMT cathode just as a cylinder
 	G4double PMTCathRadius = 5.08 * cm; // 4 inch diameter opening in the PEN foil; 2inch radius = 5.08 cm		
@@ -258,6 +274,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4Tubs* solidVUVPMTCath = new G4Tubs("PMTVUVCath", 0.0, VUVPMTCathRadius, VUVPMTCathHalfHeight, 0.0 , 360.0 );
 	G4LogicalVolume* logicVUVPMTCath = new G4LogicalVolume(solidVUVPMTCath, lead, "PMTVUVCath");
+
+
 
 
 	//Define the source holder; this is a cylinder, with a hollow cylinder on top
@@ -277,7 +295,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	
 	// Place the gap/absorber just below the top
 	G4double gapz = hzPEN - hzGap/2.;
-	new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapz), logicHexShellGap, "HexShellGap", logicHexShellPEN, false, 0);
+	new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapz), logicHexShellGap, "HexShellGap", logicHexColumnLAr, false, 0);
+
+	// Place the attenuator just below the top
+	G4double gapzatt = hzPEN - hzAtt - 1*mm;
+	new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapzatt), logicHexPlateAtt, "HexPlateAtt", logicHexColumnLAr, false, 0);
+
 
 	// Place the PMT; place 12.5cm to the centre of face of the PEN hexagon
 	// Calculate the position of the PMTCath
