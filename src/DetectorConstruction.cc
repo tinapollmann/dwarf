@@ -75,8 +75,7 @@ void DetectorConstruction::SetDefaults() {
 
 	sourceHolderHalfZHeight = 1.5*cm;
 	ESRreflectivity = 0.83;
-	LArVUVAbsl = 40*cm;
-	//LArVUVAbsl = 30*cm;
+	LArVUVAbsl = 60*cm;
 }
 
 
@@ -176,7 +175,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	lead->SetMaterialPropertiesTable(photocath_mt);
 
 	// fake layer in front of the top cage to simulate possible reduced WLS efficiency
-	G4double fake_layer_vuv_att = 2.*mm; // 20cm basically turns the effect off
+	G4double fake_layer_vuv_att = 20.*cm; // 20cm basically turns the effect off
 	std::vector<G4double> attenuator_ABSL = {100*m, 100 * m,100 * m, fake_layer_vuv_att,fake_layer_vuv_att, fake_layer_vuv_att}; // absorb some of the VUV light
 	std::vector<G4double>  reflectivity_attenuator = { 0., 0., 0., 0. ,0. ,0. }; //reflect nothing, absorb everything
 	auto attenuator_mt = new G4MaterialPropertiesTable();
@@ -245,7 +244,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	G4LogicalVolume* logicHexShellGap = new G4LogicalVolume(solidHexGap, lead, "HexShellGap");	// we use lead here just because it is defined to absorb all photons, which is what we want the gap to do
 	
-	// Define an attenuator disk that will cover the top; this is to simulate a top of lower WLSE
+	// Define an attenuator disk that will cover the top; this is to simulate a top of lower WLSE; not placed by default
 	G4double outerRadiusAtt = outerRadiusPEN - 10.*cm;
 	G4double innerRadiusAtt = 0.*cm;
 	G4double hzAtt = 0.5*mm;
@@ -255,7 +254,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 													new G4double[2]{ outerRadiusAtt, outerRadiusAtt });
 
 	G4LogicalVolume* logicHexPlateAtt = new G4LogicalVolume(solidHexAtt, glass, "HexPlateAtt");	// we use lead here just because it is defined to absorb all photons, which is what we want the gap to do
-
+	
 
 
 
@@ -298,8 +297,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapz), logicHexShellGap, "HexShellGap", logicHexColumnLAr, false, 0);
 
 	// Place the attenuator just below the top
-	G4double gapzatt = hzPEN - hzAtt - 1*mm;
-	new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapzatt), logicHexPlateAtt, "HexPlateAtt", logicHexColumnLAr, false, 0);
+	//G4double gapzatt = hzPEN - hzAtt - 1*mm;
+	//new G4PVPlacement(nullptr, G4ThreeVector(0,0,gapzatt), logicHexPlateAtt, "HexPlateAtt", logicHexColumnLAr, false, 0);
 
 
 	// Place the PMT; place 12.5cm to the centre of face of the PEN hexagon

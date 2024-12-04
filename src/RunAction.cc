@@ -80,7 +80,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     analysisManager->FillNtupleDColumn(3, detConstruction->GetLArVUVAbsl()/cm); 
     analysisManager->AddNtupleRow(); 
   }
-  else {G4cout << "RunAction: Error no analysis manager" << G4endl;}
+  else {G4cout << "RunAction: Error no analysis manager at start of run" << G4endl;}
 
 }
 

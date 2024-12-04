@@ -62,7 +62,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		fParticleGun->SetParticleDefinition(particle);
 	
 	for (int ipos = 0; ipos < 10; ipos++) {
-		fPositions.push_back(G4ThreeVector(0.*cm, 0.*cm, 45.*cm - (ipos*10)*cm));
+		fPositions.push_back(G4ThreeVector(20.5*cm,-29.*cm, 45.*cm - (ipos*10)*cm));
 	}
 
     		

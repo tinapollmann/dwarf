@@ -10,7 +10,6 @@
 /vis/scene/create
 /vis/scene/add/volume world -1 -1 none m 0 0 0 0 0 0
 /vis/sceneHandler/attach
-/vis/viewer/set/viewpointThetaPhi 00. 30.
 /vis/viewer/set/style wireframe
 /vis/viewer/set/auxiliaryEdge true
 /vis/viewer/set/lineSegmentsPerCircle 20
@@ -26,39 +25,127 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/visibility HexShellPEN 0 false
 /vis/scene/notifyHandlers
-/vis/set/colour grey
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
+/vis/viewer/set/viewpointThetaPhi 00. 30.
 /vis/viewer/flush
 /vis/viewer/refresh viewer-0
 /vis/viewer/update viewer-0
-/control/execute run1.mac
-/run/verbose 0
-/control/verbose 0
-/tracking/verbose 1
-/process/optical/verbose 0
-/run/physicsModified
-/process/optical/boundary/verbose 0
-/run/physicsModified
-/mydetector/SourcePosAlphaZ -50. 40. 0.
+/vis/viewer/set/viewpointThetaPhi 30. 30.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/vis/viewer/set/viewpointThetaPhi 90. 30.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/run/initialize
+/mydetector/MainScintYield 400.
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/MainScintYield 40.
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/vis/viewer/set/viewpointThetaPhi 30. 30.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/vis/open OGL
+/vis/sceneHandler/create OGL
+/vis/viewer/set/viewpointThetaPhi 90. 30.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/vis/viewer/set/viewpointThetaPhi 00. 30.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/vis/viewer/set/viewpointThetaPhi 30. 15.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/vis/viewer/set/viewpointThetaPhi 30. 60.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/vis/viewer/set/viewpointThetaPhi 60. 30.
+/vis/viewer/flush
+/vis/viewer/refresh viewer-0
+/vis/viewer/update viewer-0
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/MainScintYield 80
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/SourcePosAlphaZ 0. -7.5 0.
 /run/reinitializeGeometry
 /vis/scene/notifyHandlers scene-0
+/run/beamOn 1
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/MainScintYield 80
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/SourcePosAlphaZ 50. -7.5 0.
 /run/reinitializeGeometry
 /vis/scene/notifyHandlers scene-0
-/vis/scene/notifyHandlers
-/vis/viewer/update
+/mydetector/MainScintYield 80
+/run/beamOn 1
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/analysis/h1/getVector
+/analysis/h2/getVector
+/run/initialize
+/mydetector/MainScintYield 80
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/SourcePosAlphaZ -50. -7.5 0.
+/run/reinitializeGeometry
+/vis/scene/notifyHandlers scene-0
 /run/initialize
 /vis/scene/notifyHandlers scene-0
 /vis/scene/notifyHandlers scene-0
 /vis/scene/notifyHandlers scene-0
-/mydetector/MainScintYield 100.
-/process/optical/scintillation/setTrackSecondariesFirst true
-/run/physicsModified
-/analysis/setFileName wls
-/analysis/h1/set 0 1000 0 0.1
-/analysis/h1/set 1 100 0 100
-/analysis/h1/set 2 100 0 1500
-/analysis/h1/set 3 10 0.3 0.7
+/mydetector/MainScintYield 80
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/mydetector/SourcePosAlphaZ 0. -7.5 0.
+/run/reinitializeGeometry
+/vis/scene/notifyHandlers scene-0
+/run/initialize
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-0
+/mydetector/MainScintYield 80
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
+/run/beamOn 1
+/analysis/h1/getVector
+/analysis/h2/getVector
 /run/beamOn 1
 /analysis/h1/getVector
 /analysis/h2/getVector

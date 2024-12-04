@@ -15,7 +15,7 @@ float ApplyAbsorptionLength(float absl, TH1D *hlengths);
 void FillLEDPulseshape();
 void DrawVUVl();
 const int nfiles = 9;
-string filenames[9] = {"wls_0_30.root", "wls_0_m7p5.root", "wls_0_m45.root", "wls_50_20.root", "wls_50_m7p5.root", "wls_50_m45.root", "wls_m50_20.root", "wls_m50_m7p5.root", "wls_m50_m45.root"};
+string filenames[9] = {"wls_0_20.root", "wls_0_m7p5.root", "wls_0_m45.root", "wls_50_20.root", "wls_50_m7p5.root", "wls_50_m45.root", "wls_m50_20.root", "wls_m50_m7p5.root", "wls_m50_m45.root"};
 
 int ana() {
 	gStyle->SetOptStat(0);
@@ -29,7 +29,7 @@ int ana() {
 	float PMTEfficiency = 0.16;
 	float dPMTEfficiency = 0.1;
 
-	float PENWLSE = 0.8;
+	float PENWLSE = 0.7;
 	float dPENWLSE = 0.2; // 20%, includes unc on PENWLSE and on the relative yield compared to TPB
 
 	float PE_alpha_peak = alphaEnergy * LAr_alphaQ * source_geo_frac * LAr_py * PMTEfficiency * PENWLSE;

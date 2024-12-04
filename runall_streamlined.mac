@@ -1,0 +1,39 @@
+/run/verbose 0
+/control/verbose 0
+/tracking/verbose 0
+/process/optical/verbose 0
+/process/optical/boundary/verbose 0
+
+
+
+/run/initialize
+
+/mydetector/SourcePosAlphaZ 0. 45. 0.
+/mydetector/MainScintYield 40000.
+/mydetector/ESRreflectivity 0.83
+/mydetector/LArAbsLength 200
+/process/optical/scintillation/setTrackSecondariesFirst true
+
+/analysis/setFileName wls_0_45
+/run/beamOn 250
+
+
+/mydetector/SourcePosAlphaZ 0. 37.5 0.
+/analysis/setFileName wls_0_37p5
+/run/beamOn 250
+
+/mydetector/SourcePosAlphaZ 0. 7.5 0.
+/analysis/setFileName wls_0_7p5
+/run/beamOn 250
+
+
+
+/mydetector/SourcePosAlphaZ 0. -30. 0.
+/analysis/setFileName wls_0_m30
+/run/beamOn 250
+
+
+/mydetector/SourcePosAlphaZ 50. 35. 0.
+/analysis/setFileName wls_35_50
+/run/beamOn 250
+

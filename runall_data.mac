@@ -7,16 +7,16 @@
 
 
 /run/initialize
-/mydetector/SourcePosAlphaZ 0. 30 0.
+/mydetector/SourcePosAlphaZ 0. 27.5 0.
 /mydetector/MainScintYield 40000.
 /process/optical/scintillation/setTrackSecondariesFirst true
 
-/analysis/setFileName wls_0_30
+/analysis/setFileName wls_0_20
 /analysis/h1/set 0 1000 0 0.1
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 
 /mydetector/SourcePosAlphaZ 0. -7.5 0.
@@ -27,7 +27,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 /mydetector/SourcePosAlphaZ 0. -45 0. 
 /run/initialize
@@ -37,7 +37,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 
 /mydetector/SourcePosAlphaZ 50. 20 0.
@@ -48,7 +48,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 
 /mydetector/SourcePosAlphaZ 50. -7.5 0. 
@@ -62,7 +62,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 /mydetector/SourcePosAlphaZ 50. -45 0. 
 /run/initialize
@@ -75,7 +75,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 /mydetector/SourcePosAlphaZ -50. 20. 0. 
 /run/initialize
@@ -88,7 +88,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 /mydetector/SourcePosAlphaZ -50. -7.5 0. 
 /run/initialize
@@ -101,7 +101,7 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
 
 /mydetector/SourcePosAlphaZ -50. -45. 0.  
 /run/initialize
@@ -114,4 +114,4 @@
 /analysis/h1/set 1 100 0 150
 /analysis/h1/set 2 300 0 1500
 /analysis/h1/set 3 10 0.3 0.7
-/run/beamOn 25
+/run/beamOn 200
